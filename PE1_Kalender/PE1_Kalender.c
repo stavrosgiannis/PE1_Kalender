@@ -10,6 +10,41 @@ struct datum
 	int yyyy;
 };
 
+#define TRUE    1
+#define FALSE   0
+
+int tage_im_monat[] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
+char* monate[] =
+{
+	" ",
+	"\n\n\nJanuar",
+	"\n\n\nFebruar",
+	"\n\n\nMärz",
+	"\n\n\nApril",
+	"\n\n\nMai",
+	"\n\n\nJuni",
+	"\n\n\nJuli",
+	"\n\n\nAugust",
+	"\n\n\nSeptember",
+	"\n\n\nOktober",
+	"\n\n\nNovember",
+	"\n\n\nDezember"
+};
+
+int check_schaltjahr(struct datum input_datum[1])
+{
+	if (input_datum[0].yyyy % 4 == FALSE && input_datum[0].yyyy % 100 != FALSE || input_datum[0].yyyy % 400 == FALSE)
+	{
+		tage_im_monat[2] = 29;
+		return TRUE;
+	}
+	else
+	{
+		tage_im_monat[2] = 28;
+		return FALSE;
+	}
+}
+
 unsigned char response;
 
 /* schaltjahr.c
@@ -17,37 +52,42 @@ unsigned char response;
 	Achtung: Vor 1582 war jedes Jahr mit durch 4 teilbarer Zahl ein Schaltjahr
 	(Julianischer Kalender). */
 
-int schalt(int j) {
-	if (j % 4 == 0 && j % 100 != 0 || j % 400 == 0)
-		return 1;
-	else
-		return 0;
-}
-
 int main() {
 	do
 	{
-		struct datum input_date[1];
+		struct datum input_datum[1];
 
-		printf("Gib den Tag deines Datums ein [dd].mm.yyyy ein: ");
-		scanf("%d", &input_date[0].dd);
-		while (getchar() != '\n');
-		printf("Gib den Monat deines Datums ein dd.[mm].yyyy ein: ");
-		scanf("%d", &input_date[0].mm);
-		while (getchar() != '\n');
-		printf("Gib das Jahr deines Datums ein dd.mm.[yyyy] ein: ");
-		scanf("%d", &input_date[0].yyyy);
+		printf("Bitte geben Sie das Datum ein [dd.mm.yyyy]: ");
+		scanf("%d.%d.%d", &input_datum[0].dd, &input_datum[0].mm, &input_datum[0].yyyy);
 
-		if (schalt(input_date[0].yyyy))
-			printf("%d ist ein Schaltjahr\n", input_date[0].yyyy);
-		else
-			printf("%d ist kein Schaltjahr\n", input_date[0].yyyy);
+		//check_date(input_datum);
 
-		printf("Datum: %d.%d.%d", input_date[0].dd, input_date[0].mm, input_date[0].yyyy);
+		printf("daycode: %d", kalender_wochentag_zähler(input_datum));
+
+		if (check_schaltjahr(input_datum) == TRUE) {
+			printf("\n%d ist ein Schaltjahr\n", input_datum[0].yyyy);
+		}
+		else {
+			printf("\n%d ist kein Schaltjahr\n", input_datum[0].yyyy);
+		}
+
+		printf("\nDatum: %d.%d.%d", input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy);
 
 		printf("\n\nerneute Berechnung? (j/n)\n");
 		scanf("%c", &response);
 	} while (getchar() == 'j' || getchar() == 'J');
+}
+
+int kalender_wochentag_zähler(struct datum input_datum[1])
+{
+	int tagcode;
+	int d1, d2, d3;
+
+	d1 = (input_datum[0].yyyy - 1.) / 4.0;
+	d2 = (input_datum[0].yyyy - 1.) / 100.;
+	d3 = (input_datum[0].yyyy - 1.) / 400.;
+	tagcode = (input_datum[0].yyyy + d1 - d2 + d3) % 7;
+	return tagcode;
 }
 
 /*
