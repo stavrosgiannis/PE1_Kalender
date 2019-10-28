@@ -14,6 +14,10 @@ struct datum
 #define FALSE   0
 
 int tage_im_monat[] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
+
+int julianische_wochentage[] = { 0/*Sonntag*/,1 /*Montag*/, 2/*Dienstag*/, 3/*Mittwoch*/, 4/*Donnerstag*/, 5/*Freitag*/, 6/*Samstag*/ };
+int julianische_monate[] = { 1/*März*/, 2/*April*/, 3/*Mai*/, 4/*Juni*/, 5/*Juli*/, 6/*August*/, 7/*September*/, 8/*Oktober*/, 9/*November*/, 10/*Dezember*/, 11/*Januar*/, 12/*Februar*/ };
+
 char* monate[] =
 {
 	" ",
