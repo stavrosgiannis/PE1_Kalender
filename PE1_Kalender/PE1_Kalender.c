@@ -13,7 +13,7 @@ struct datum
 #define TRUE    1
 #define FALSE   0
 
-int tage_im_monat[] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
+int tage_im_monat[] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
 char* monate[] =
 {
 	" ",
@@ -61,6 +61,25 @@ int main() {
 		scanf("%d.%d.%d", &input_datum[0].dd, &input_datum[0].mm, &input_datum[0].yyyy);
 
 		//check_date(input_datum);
+
+		//printf("%d DEBUG", tage_im_monat[input_datum[0].mm]);
+
+		//Größe eines Arrays ermitteln
+		size_t n = sizeof(tage_im_monat) / sizeof(tage_im_monat[0]);
+		printf("%d DEBUG", n);
+
+		if (input_datum[0].mm > 0 && input_datum[0].mm <= n) {
+			printf("\nDer eingegebene Monat ist korrekt!\n");
+		}
+		else {
+			printf("\nDer eingegebene Monat ist nicht korrekt.");
+		}
+		if (tage_im_monat[input_datum[0].mm] == input_datum[0].dd || (input_datum[0].dd > 0 && input_datum[0].dd <= tage_im_monat[input_datum[0].mm] + 1)) {
+			printf("\nDer eingegebene Tag ist korrekt.\n");
+		}
+		else {
+			printf("\nDer eingegebene Tag ist nicht korrekt!\n");
+		}
 
 		printf("daycode: %d", kalender_wochentag_zähler(input_datum));
 
