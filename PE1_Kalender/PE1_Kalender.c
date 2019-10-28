@@ -13,7 +13,7 @@ struct datum
 #define TRUE    1
 #define FALSE   0
 
-int tage_im_monat[] = { 31,28,31,30,31,30,31,31,30,31,30,31 };
+int tage_im_monat[] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
 char* monate[] =
 {
 	" ",
@@ -66,10 +66,10 @@ int main() {
 
 		//Größe eines Arrays ermitteln
 		size_t n = sizeof(tage_im_monat) / sizeof(tage_im_monat[0]);
-		printf("%d DEBUG", n);
+		n = n - 1;
 
 		if (input_datum[0].mm > 0 && input_datum[0].mm <= n) {
-			printf("\nDer eingegebene Monat ist korrekt!\n");
+			printf("\nDer eingegebene Monat ist korrekt.\n");
 		}
 		else
 		{
@@ -83,14 +83,12 @@ int main() {
 			printf("\nDer eingegebene Tag ist nicht korrekt!\n");
 		}
 		if (input_datum[0].yyyy > 0) {
-			printf("Das eingegebene Jahr ist korrekt.");
+			printf("\nDas eingegebene Jahr ist korrekt.\n");
 		}
 		else
 		{
-			printf("Das eingegebene Jahr ist nicht korrekt!");
+			printf("\nDas eingegebene Jahr ist nicht korrekt!\n");
 		}
-
-		printf("\nTag im Jahr: %d", tag_im_jahr(input_datum));
 
 		printf("daycode: %d", kalender_wochentag_zähler(input_datum));
 
@@ -100,6 +98,8 @@ int main() {
 		else {
 			printf("\n%d ist kein Schaltjahr\n", input_datum[0].yyyy);
 		}
+
+		printf("\nTag im Jahr: %d", tag_im_jahr(input_datum));
 
 		printf("\nDatum: %d.%d.%d", input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy);
 
@@ -124,9 +124,9 @@ int tag_im_jahr(struct datum input_datum[1])
 {
 	int tag_im_jahr = 0;
 
-	for (int i = 0; i <= input_datum[0].mm - 1; i++) {
+	for (int i = 1; i < input_datum[0].mm; i++) {
 		tag_im_jahr = tag_im_jahr + tage_im_monat[i];
-		if (i == input_datum[0].mm) {
+		if (i == input_datum[0].mm - 1) {
 			tag_im_jahr = tag_im_jahr + input_datum[0].dd;
 		}
 	}
