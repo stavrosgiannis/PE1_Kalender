@@ -71,15 +71,26 @@ int main() {
 		if (input_datum[0].mm > 0 && input_datum[0].mm <= n) {
 			printf("\nDer eingegebene Monat ist korrekt!\n");
 		}
-		else {
+		else
+		{
 			printf("\nDer eingegebene Monat ist nicht korrekt.");
 		}
 		if (tage_im_monat[input_datum[0].mm] == input_datum[0].dd || (input_datum[0].dd > 0 && input_datum[0].dd <= tage_im_monat[input_datum[0].mm] + 1)) {
 			printf("\nDer eingegebene Tag ist korrekt.\n");
 		}
-		else {
+		else
+		{
 			printf("\nDer eingegebene Tag ist nicht korrekt!\n");
 		}
+		if (input_datum[0].yyyy > 0) {
+			printf("Das eingegebene Jahr ist korrekt.");
+		}
+		else
+		{
+			printf("Das eingegebene Jahr ist nicht korrekt!");
+		}
+
+		printf("\nTag im Jahr: %d", tag_im_jahr(input_datum));
 
 		printf("daycode: %d", kalender_wochentag_zähler(input_datum));
 
@@ -109,6 +120,19 @@ int kalender_wochentag_zähler(struct datum input_datum[1])
 	return tagcode;
 }
 
+int tag_im_jahr(struct datum input_datum[1])
+{
+	int tag_im_jahr = 0;
+
+	for (int i = 0; i <= input_datum[0].mm - 1; i++) {
+		tag_im_jahr = tag_im_jahr + tage_im_monat[i];
+		if (i == input_datum[0].mm) {
+			tag_im_jahr = tag_im_jahr + input_datum[0].dd;
+		}
+	}
+	return tag_im_jahr;
+}
+
 /*
 
 In dieser Aufgabe soll ein C-Programm zur Erzeugung eines Kalenders erstellt werden. Ausgangspunkt ist ein vom Benutzer eingegebenes Datum, für das die Kalenderinformationen angezeigt werden sollen.
@@ -116,8 +140,8 @@ In dieser Aufgabe soll ein C-Programm zur Erzeugung eines Kalenders erstellt wer
 Die Funktionalität soll schrittweise realisiert werden. Achten Sie darauf, dass Sie für jeden Schritt jeweils zuerst ein Konzept haben, bevor Sie es anschließend umsetzen. Für die Aufgabe in dieser Woche existiert keine Vorlage. Sie können jedoch Teile der Programme aus den vergangenen Wochen nutzen, um beispielsweise die Benutzereingabe zu realisieren.
 
 	1.	Berechnen Sie, ob das Jahr des vom Benutzer eingegebenen Datums ein Schaltjahr ist. FERTIG
-	2.	Prüfen Sie, ob ein korrektes Datum eingegeben wurde. (Beachten Sie dabei auch die im ersten Teil ermittelte Information.)
-	3.	Geben Sie für den gegebenen Tag aus, der wievielte Tag des Jahres er ist.
+	2.	Prüfen Sie, ob ein korrektes Datum eingegeben wurde. (Beachten Sie dabei auch die im ersten Teil ermittelte Information.) FERTIG
+	3.	Geben Sie für den gegebenen Tag aus, der wievielte Tag des Jahres er ist.	FERTIG
 	4.	Berechnen Sie den Wochentag des 1. Januars des gegebenen Jahres. (Zur Vereinfachung beschränken Sie ihr Programm auf
 		Jahre des 20. oder 21. Jahrhunderts, also zwischen 1901 und 2100.)
 	5.	Ermitteln Sie den Wochentag des gegebenen Tags.
