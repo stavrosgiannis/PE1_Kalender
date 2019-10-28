@@ -15,25 +15,25 @@ struct datum
 
 int tage_im_monat[] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
 
-int julianische_wochentage[] = { 0/*Sonntag*/,1 /*Montag*/, 2/*Dienstag*/, 3/*Mittwoch*/, 4/*Donnerstag*/, 5/*Freitag*/, 6/*Samstag*/ };
-int julianische_monate[] = { 1/*März*/, 2/*April*/, 3/*Mai*/, 4/*Juni*/, 5/*Juli*/, 6/*August*/, 7/*September*/, 8/*Oktober*/, 9/*November*/, 10/*Dezember*/, 11/*Januar*/, 12/*Februar*/ };
+int wochentage[] = { 0/*Sonntag*/,1 /*Montag*/, 2/*Dienstag*/, 3/*Mittwoch*/, 4/*Donnerstag*/, 5/*Freitag*/, 6/*Samstag*/ };
+int monate[] = { 1/*März*/, 2/*April*/, 3/*Mai*/, 4/*Juni*/, 5/*Juli*/, 6/*August*/, 7/*September*/, 8/*Oktober*/, 9/*November*/, 10/*Dezember*/, 11/*Januar*/, 12/*Februar*/ };
 
-char* monate[] =
-{
-	" ",
-	"\n\n\nJanuar",
-	"\n\n\nFebruar",
-	"\n\n\nMärz",
-	"\n\n\nApril",
-	"\n\n\nMai",
-	"\n\n\nJuni",
-	"\n\n\nJuli",
-	"\n\n\nAugust",
-	"\n\n\nSeptember",
-	"\n\n\nOktober",
-	"\n\n\nNovember",
-	"\n\n\nDezember"
-};
+//char* monate[] =
+//{
+//	" ",
+//	"\n\n\nJanuar",
+//	"\n\n\nFebruar",
+//	"\n\n\nMärz",
+//	"\n\n\nApril",
+//	"\n\n\nMai",
+//	"\n\n\nJuni",
+//	"\n\n\nJuli",
+//	"\n\n\nAugust",
+//	"\n\n\nSeptember",
+//	"\n\n\nOktober",
+//	"\n\n\nNovember",
+//	"\n\n\nDezember"
+//};
 
 int check_schaltjahr(struct datum input_datum[1])
 {
@@ -94,6 +94,7 @@ int main() {
 			printf("\nDas eingegebene Jahr ist nicht korrekt!\n");
 		}
 
+		aufgabe4(input_datum);
 		printf("daycode: %d", kalender_wochentag_zähler(input_datum));
 
 		if (check_schaltjahr(input_datum) == TRUE) {
@@ -124,6 +125,56 @@ int kalender_wochentag_zähler(struct datum input_datum[1])
 	return tagcode;
 }
 
+int aufgabe4(struct datum input_datum[1]) {
+	int num = input_datum[0].yyyy;
+	int letzen_zwei_stellen_vorjahr[] = { 0,0 };
+	int ersten_zwei_stellen_vorjahr[] = { 0,0 };
+
+	for (int i = 0; i < 4; i++)
+	{
+		int mod = num % 10;  //split last digit from number
+		printf("%d\n", mod); //print the digit.
+		if (i == 0) {
+			letzen_zwei_stellen_vorjahr[1] = mod;
+		}
+		else if (i == 1) {
+			letzen_zwei_stellen_vorjahr[0] = mod;
+		}
+		else if (i == 3) {
+			ersten_zwei_stellen_vorjahr[0] = mod;
+		}
+		else if (i == 4) {
+			ersten_zwei_stellen_vorjahr[1] = mod;
+		}
+
+		num = num / 10;    //divide num by 10. num /= 10 also a valid one
+	}
+	printf("\n%d%d letzten stellen\n", letzen_zwei_stellen_vorjahr[0], letzen_zwei_stellen_vorjahr[1]);
+	printf("\n%d%d ersten stellen\n", ersten_zwei_stellen_vorjahr[0], ersten_zwei_stellen_vorjahr[1]);
+
+	if (wochentage[dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy)] == 0) {
+		printf("Wochentag: Sonntag\n");
+	}
+	else if (wochentage[dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy)] == 1) {
+		printf("Wochentag: Montag\n");
+	}
+	else if (wochentage[dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy)] == 2) {
+		printf("Wochentag: Dienstag\n");
+	}
+	else if (wochentage[dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy)] == 3) {
+		printf("Wochentag: Mittwoch\n");
+	}
+	else if (wochentage[dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy)] == 4) {
+		printf("Wochentag: Donnerstag\n");
+	}
+	else if (wochentage[dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy)] == 5) {
+		printf("Wochentag: Freitag\n");
+	}
+	else if (wochentage[dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy)] == 6) {
+		printf("Wochentag: Samstag\n");
+	}
+}
+
 int tag_im_jahr(struct datum input_datum[1])
 {
 	int tag_im_jahr = 0;
@@ -137,6 +188,29 @@ int tag_im_jahr(struct datum input_datum[1])
 	return tag_im_jahr;
 }
 
+int dayofweek(int d, int m, int y)
+{
+	int s = 0, k, l, o, t, z1, z2, z3, z4, z5, z6;
+	double p, z;
+	z = (0.6 + (1.0 / m));
+	k = (int)z;
+	l = y - k;
+	o = m + 12 * k;
+	p = l / 100.0;
+	z = p / 4.0;
+	z1 = (int)z;
+	z2 = (int)p;
+	z = (5.0 * l) / 4.0;
+	z3 = (int)z;
+	z = (13.0 * (o + 1) / 5.0);
+	z4 = (int)z;
+	z5 = z4 + z3 - z2 + z1 + d - 1;
+	z = z5 / 7.0;
+	z6 = (int)z;
+	t = z5 - (7 * z6) + 1;
+	return(t);
+}
+
 /*
 
 In dieser Aufgabe soll ein C-Programm zur Erzeugung eines Kalenders erstellt werden. Ausgangspunkt ist ein vom Benutzer eingegebenes Datum, für das die Kalenderinformationen angezeigt werden sollen.
@@ -148,7 +222,7 @@ Die Funktionalität soll schrittweise realisiert werden. Achten Sie darauf, dass 
 	3.	Geben Sie für den gegebenen Tag aus, der wievielte Tag des Jahres er ist.	FERTIG
 	4.	Berechnen Sie den Wochentag des 1. Januars des gegebenen Jahres. (Zur Vereinfachung beschränken Sie ihr Programm auf
 		Jahre des 20. oder 21. Jahrhunderts, also zwischen 1901 und 2100.)
-	5.	Ermitteln Sie den Wochentag des gegebenen Tags.
+	5.	Ermitteln Sie den Wochentag des gegebenen Tags. FERTIG
 	6.	Zusatzaufgabe: Berechnen Sie, in welcher Kalenderwoche der gegebene Tag ist (nach ISO 8601).
 
 */
