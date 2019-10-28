@@ -95,7 +95,6 @@ int main() {
 		}
 
 		aufgabe4(input_datum);
-		printf("daycode: %d", kalender_wochentag_zähler(input_datum));
 
 		if (check_schaltjahr(input_datum) == TRUE) {
 			printf("\n%d ist ein Schaltjahr\n", input_datum[0].yyyy);
@@ -111,18 +110,6 @@ int main() {
 		printf("\n\nerneute Berechnung? (j/n)\n");
 		scanf("%c", &response);
 	} while (getchar() == 'j' || getchar() == 'J');
-}
-
-int kalender_wochentag_zähler(struct datum input_datum[1])
-{
-	int tagcode;
-	int d1, d2, d3;
-
-	d1 = (input_datum[0].yyyy - 1.) / 4.0;
-	d2 = (input_datum[0].yyyy - 1.) / 100.;
-	d3 = (input_datum[0].yyyy - 1.) / 400.;
-	tagcode = (input_datum[0].yyyy + d1 - d2 + d3) % 7;
-	return tagcode;
 }
 
 int aufgabe4(struct datum input_datum[1]) {
