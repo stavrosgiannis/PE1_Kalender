@@ -107,12 +107,15 @@ int main() {
 
 		printf("\nDatum: %d.%d.%d", input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy);
 
+		printf("\n01.01.%d -> ", input_datum[0].yyyy);
+		aufgabe4(input_datum);
+
 		printf("\n\nerneute Berechnung? (j/n)\n");
 		scanf("%c", &response);
 	} while (getchar() == 'j' || getchar() == 'J');
 }
 
-int aufgabe4(struct datum input_datum[1]) {
+int aufgabe5(struct datum input_datum[1]) {
 	int num = input_datum[0].yyyy;
 	int letzen_zwei_stellen_vorjahr[] = { 0,0 };
 	int ersten_zwei_stellen_vorjahr[] = { 0,0 };
@@ -138,28 +141,6 @@ int aufgabe4(struct datum input_datum[1]) {
 	}
 	printf("\n%d%d letzten stellen\n", letzen_zwei_stellen_vorjahr[0], letzen_zwei_stellen_vorjahr[1]);
 	printf("\n%d%d ersten stellen\n", ersten_zwei_stellen_vorjahr[0], ersten_zwei_stellen_vorjahr[1]);
-
-	if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 0) {
-		printf("Wochentag: Sonntag\n");
-	}
-	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 1) {
-		printf("Wochentag: Montag\n");
-	}
-	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 2) {
-		printf("Wochentag: Dienstag\n");
-	}
-	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 3) {
-		printf("Wochentag: Mittwoch\n");
-	}
-	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 4) {
-		printf("Wochentag: Donnerstag\n");
-	}
-	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 5) {
-		printf("Wochentag: Freitag\n");
-	}
-	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 6) {
-		printf("Wochentag: Samstag\n");
-	}
 }
 
 int tag_im_jahr(struct datum input_datum[1])
@@ -198,6 +179,37 @@ int dayofweek(int d, int m, int y)
 	return(t);
 }
 
+int getWochentag(struct datum input_datum[1]) {
+	if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 0) {
+		printf("Wochentag: Sonntag\n");
+	}
+	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 1) {
+		printf("Wochentag: Montag\n");
+	}
+	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 2) {
+		printf("Wochentag: Dienstag\n");
+	}
+	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 3) {
+		printf("Wochentag: Mittwoch\n");
+	}
+	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 4) {
+		printf("Wochentag: Donnerstag\n");
+	}
+	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 5) {
+		printf("Wochentag: Freitag\n");
+	}
+	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 6) {
+		printf("Wochentag: Samstag\n");
+	}
+}
+
+int aufgabe4(struct datum input_datum[1]) {
+	input_datum[0].dd = 01;
+	input_datum[0].mm = 01;
+	getWochentag(input_datum);
+	return 0;
+}
+
 /*
 
 In dieser Aufgabe soll ein C-Programm zur Erzeugung eines Kalenders erstellt werden. Ausgangspunkt ist ein vom Benutzer eingegebenes Datum, für das die Kalenderinformationen angezeigt werden sollen.
@@ -208,8 +220,8 @@ Die Funktionalität soll schrittweise realisiert werden. Achten Sie darauf, dass 
 	2.	Prüfen Sie, ob ein korrektes Datum eingegeben wurde. (Beachten Sie dabei auch die im ersten Teil ermittelte Information.) FERTIG
 	3.	Geben Sie für den gegebenen Tag aus, der wievielte Tag des Jahres er ist.	FERTIG
 	4.	Berechnen Sie den Wochentag des 1. Januars des gegebenen Jahres. (Zur Vereinfachung beschränken Sie ihr Programm auf
-		Jahre des 20. oder 21. Jahrhunderts, also zwischen 1901 und 2100.) SOGUTWIEFERTIG
+		Jahre des 20. oder 21. Jahrhunderts, also zwischen 1901 und 2100.) FERTIG
 	5.	Ermitteln Sie den Wochentag des gegebenen Tags. FERTIG
-	6.	Zusatzaufgabe: Berechnen Sie, in welcher Kalenderwoche der gegebene Tag ist (nach ISO 8601). SOGUTWIEFERTIG
+	6.	Zusatzaufgabe: Berechnen Sie, in welcher Kalenderwoche der gegebene Tag ist (nach ISO 8601).
 
 */
