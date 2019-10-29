@@ -139,25 +139,25 @@ int aufgabe4(struct datum input_datum[1]) {
 	printf("\n%d%d letzten stellen\n", letzen_zwei_stellen_vorjahr[0], letzen_zwei_stellen_vorjahr[1]);
 	printf("\n%d%d ersten stellen\n", ersten_zwei_stellen_vorjahr[0], ersten_zwei_stellen_vorjahr[1]);
 
-	if (wochentage[dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy)] == 0) {
+	if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 0) {
 		printf("Wochentag: Sonntag\n");
 	}
-	else if (wochentage[dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy)] == 1) {
+	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 1) {
 		printf("Wochentag: Montag\n");
 	}
-	else if (wochentage[dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy)] == 2) {
+	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 2) {
 		printf("Wochentag: Dienstag\n");
 	}
-	else if (wochentage[dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy)] == 3) {
+	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 3) {
 		printf("Wochentag: Mittwoch\n");
 	}
-	else if (wochentage[dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy)] == 4) {
+	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 4) {
 		printf("Wochentag: Donnerstag\n");
 	}
-	else if (wochentage[dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy)] == 5) {
+	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 5) {
 		printf("Wochentag: Freitag\n");
 	}
-	else if (wochentage[dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy)] == 6) {
+	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 6) {
 		printf("Wochentag: Samstag\n");
 	}
 }
@@ -208,8 +208,8 @@ Die Funktionalität soll schrittweise realisiert werden. Achten Sie darauf, dass 
 	2.	Prüfen Sie, ob ein korrektes Datum eingegeben wurde. (Beachten Sie dabei auch die im ersten Teil ermittelte Information.) FERTIG
 	3.	Geben Sie für den gegebenen Tag aus, der wievielte Tag des Jahres er ist.	FERTIG
 	4.	Berechnen Sie den Wochentag des 1. Januars des gegebenen Jahres. (Zur Vereinfachung beschränken Sie ihr Programm auf
-		Jahre des 20. oder 21. Jahrhunderts, also zwischen 1901 und 2100.)
+		Jahre des 20. oder 21. Jahrhunderts, also zwischen 1901 und 2100.) SOGUTWIEFERTIG
 	5.	Ermitteln Sie den Wochentag des gegebenen Tags. FERTIG
-	6.	Zusatzaufgabe: Berechnen Sie, in welcher Kalenderwoche der gegebene Tag ist (nach ISO 8601).
+	6.	Zusatzaufgabe: Berechnen Sie, in welcher Kalenderwoche der gegebene Tag ist (nach ISO 8601). SOGUTWIEFERTIG
 
 */
