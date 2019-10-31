@@ -94,8 +94,6 @@ int main() {
 			printf("\nDas eingegebene Jahr ist nicht korrekt!\n");
 		}
 
-		aufgabe4(input_datum);
-
 		if (check_schaltjahr(input_datum) == TRUE) {
 			printf("\n%d ist ein Schaltjahr\n", input_datum[0].yyyy);
 		}
@@ -105,10 +103,12 @@ int main() {
 
 		printf("\nTag im Jahr: %d", tag_im_jahr(input_datum));
 
-		printf("\nDatum: %d.%d.%d", input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy);
+		printf("\nDatum: %d.%d.%d, %d", input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy, dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy));
 
 		printf("\n01.01.%d -> ", input_datum[0].yyyy);
+		/*printf("%d", dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy));*/
 		aufgabe4(input_datum);
+		//aufgabe5(input_datum);
 
 		printf("\n\nerneute Berechnung? (j/n)\n");
 		scanf("%c", &response);
@@ -139,8 +139,8 @@ int aufgabe5(struct datum input_datum[1]) {
 
 		num = num / 10;    //divide num by 10. num /= 10 also a valid one
 	}
-	printf("\n%d%d letzten stellen\n", letzen_zwei_stellen_vorjahr[0], letzen_zwei_stellen_vorjahr[1]);
-	printf("\n%d%d ersten stellen\n", ersten_zwei_stellen_vorjahr[0], ersten_zwei_stellen_vorjahr[1]);
+	/*printf("\n%d%d letzten stellen\n", letzen_zwei_stellen_vorjahr[0], letzen_zwei_stellen_vorjahr[1]);
+	printf("\n%d%d ersten stellen\n", ersten_zwei_stellen_vorjahr[0], ersten_zwei_stellen_vorjahr[1]);*/
 }
 
 int tag_im_jahr(struct datum input_datum[1])
