@@ -15,7 +15,7 @@ struct datum
 
 int tage_im_monat[] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
 
-int wochentage[] = { 0/*Sonntag*/,1 /*Montag*/, 2/*Dienstag*/, 3/*Mittwoch*/, 4/*Donnerstag*/, 5/*Freitag*/, 6/*Samstag*/ };
+char wochentage[7][32] = { "Sonntag","Montag","Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag" };
 int monate[] = { 1/*März*/, 2/*April*/, 3/*Mai*/, 4/*Juni*/, 5/*Juli*/, 6/*August*/, 7/*September*/, 8/*Oktober*/, 9/*November*/, 10/*Dezember*/, 11/*Januar*/, 12/*Februar*/ };
 
 //char* monate[] =
@@ -103,7 +103,8 @@ int main() {
 
 		printf("\nTag im Jahr: %d", tag_im_jahr(input_datum));
 
-		printf("\nDatum: %d.%d.%d, %d", input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy, dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy));
+		printf("\nDatum: %d.%d.%d, ", input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy);
+		getWochentag(input_datum);
 
 		printf("\n01.01.%d -> ", input_datum[0].yyyy);
 		/*printf("%d", dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy));*/
@@ -180,27 +181,8 @@ int dayofweek(int d, int m, int y)
 }
 
 int getWochentag(struct datum input_datum[1]) {
-	if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 0) {
-		printf("Wochentag: Sonntag\n");
-	}
-	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 1) {
-		printf("Wochentag: Montag\n");
-	}
-	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 2) {
-		printf("Wochentag: Dienstag\n");
-	}
-	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 3) {
-		printf("Wochentag: Mittwoch\n");
-	}
-	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 4) {
-		printf("Wochentag: Donnerstag\n");
-	}
-	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 5) {
-		printf("Wochentag: Freitag\n");
-	}
-	else if (wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)] == 6) {
-		printf("Wochentag: Samstag\n");
-	}
+	printf("%s", wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)]);
+	/*return wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)];*/
 }
 
 int aufgabe4(struct datum input_datum[1]) {
