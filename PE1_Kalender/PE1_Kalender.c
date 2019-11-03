@@ -15,25 +15,8 @@ struct datum
 
 int tage_im_monat[] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
 
-char wochentage[7][32] = { "Sonntag","Montag","Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag" };
+char wochentage[7][32] = { "Sonntag", "Montag","Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag" };
 int monate[] = { 1/*März*/, 2/*April*/, 3/*Mai*/, 4/*Juni*/, 5/*Juli*/, 6/*August*/, 7/*September*/, 8/*Oktober*/, 9/*November*/, 10/*Dezember*/, 11/*Januar*/, 12/*Februar*/ };
-
-//char* monate[] =
-//{
-//	" ",
-//	"\n\n\nJanuar",
-//	"\n\n\nFebruar",
-//	"\n\n\nMärz",
-//	"\n\n\nApril",
-//	"\n\n\nMai",
-//	"\n\n\nJuni",
-//	"\n\n\nJuli",
-//	"\n\n\nAugust",
-//	"\n\n\nSeptember",
-//	"\n\n\nOktober",
-//	"\n\n\nNovember",
-//	"\n\n\nDezember"
-//};
 
 int check_schaltjahr(struct datum input_datum[1])
 {
@@ -73,18 +56,18 @@ int main() {
 		n = n - 1;
 
 		if (input_datum[0].mm > 0 && input_datum[0].mm <= n) {
-			printf("\nDer eingegebene Monat ist korrekt.\n");
+			printf("\nDer eingegebene Monat ist korrekt.");
 		}
 		else
 		{
 			printf("\nDer eingegebene Monat ist nicht korrekt.");
 		}
 		if (tage_im_monat[input_datum[0].mm] == input_datum[0].dd || (input_datum[0].dd > 0 && input_datum[0].dd <= tage_im_monat[input_datum[0].mm] + 1)) {
-			printf("\nDer eingegebene Tag ist korrekt.\n");
+			printf("\nDer eingegebene Tag ist korrekt.");
 		}
 		else
 		{
-			printf("\nDer eingegebene Tag ist nicht korrekt!\n");
+			printf("\nDer eingegebene Tag ist nicht korrekt!");
 		}
 		if (input_datum[0].yyyy > 0) {
 			printf("\nDas eingegebene Jahr ist korrekt.\n");
@@ -95,10 +78,10 @@ int main() {
 		}
 
 		if (check_schaltjahr(input_datum) == TRUE) {
-			printf("\n%d ist ein Schaltjahr\n", input_datum[0].yyyy);
+			printf("\n%d ist ein Schaltjahr", input_datum[0].yyyy);
 		}
 		else {
-			printf("\n%d ist kein Schaltjahr\n", input_datum[0].yyyy);
+			printf("\n%d ist kein Schaltjahr", input_datum[0].yyyy);
 		}
 
 		printf("\nTag im Jahr: %d", tag_im_jahr(input_datum));
@@ -106,7 +89,9 @@ int main() {
 		printf("\nDatum: %d.%d.%d, ", input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy);
 		getWochentag(input_datum);
 
-		printf("\n01.01.%d -> ", input_datum[0].yyyy);
+		printf("\n%d. Woche im Jahr", aufgabe6(input_datum));
+
+		printf("\n01.01.%d, ", input_datum[0].yyyy);
 		/*printf("%d", dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy));*/
 		aufgabe4(input_datum);
 		//aufgabe5(input_datum);
@@ -177,11 +162,11 @@ int dayofweek(int d, int m, int y)
 	z = z5 / 7.0;
 	z6 = (int)z;
 	t = z5 - (7 * z6) + 1;
-	return(t);
+	return(t - 1);
 }
 
 int getWochentag(struct datum input_datum[1]) {
-	printf("%s", wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)]);
+	printf("%s", wochentage[dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy)]);
 	/*return wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)];*/
 }
 
@@ -190,6 +175,11 @@ int aufgabe4(struct datum input_datum[1]) {
 	input_datum[0].mm = 01;
 	getWochentag(input_datum);
 	return 0;
+}
+
+int aufgabe6(struct datum input_datum[1]) {
+	int woche_im_jahr = tag_im_jahr(input_datum) / 7;
+	return woche_im_jahr + 1;
 }
 
 /*
