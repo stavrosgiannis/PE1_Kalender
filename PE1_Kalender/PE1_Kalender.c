@@ -10,25 +10,22 @@ struct datum
 	int yyyy;
 };
 
-#define TRUE    1
-#define FALSE   0
-
 int tage_im_monat[] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
 
-char wochentage[7][32] = { "Sonntag", "Montag","Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag" };
-int monate[] = { 1/*März*/, 2/*April*/, 3/*Mai*/, 4/*Juni*/, 5/*Juli*/, 6/*August*/, 7/*September*/, 8/*Oktober*/, 9/*November*/, 10/*Dezember*/, 11/*Januar*/, 12/*Februar*/ };
+char julianische_wochentage[7][32] = { "Sonntag", "Montag","Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag" };
+int julianische_monate[] = { 1/*März*/, 2/*April*/, 3/*Mai*/, 4/*Juni*/, 5/*Juli*/, 6/*August*/, 7/*September*/, 8/*Oktober*/, 9/*November*/, 10/*Dezember*/, 11/*Januar*/, 12/*Februar*/ };
 
 int check_schaltjahr(struct datum input_datum[1])
 {
-	if (input_datum[0].yyyy % 4 == FALSE && input_datum[0].yyyy % 100 != FALSE || input_datum[0].yyyy % 400 == FALSE)
+	if (input_datum[0].yyyy % 4 == 0 && input_datum[0].yyyy % 100 != 0 || input_datum[0].yyyy % 400 == 0)
 	{
 		tage_im_monat[2] = 29;
-		return TRUE;
+		return 1;
 	}
 	else
 	{
 		tage_im_monat[2] = 28;
-		return FALSE;
+		return 0;
 	}
 }
 
@@ -47,27 +44,25 @@ int main() {
 		printf("Bitte geben Sie das Datum ein [dd.mm.yyyy]: ");
 		scanf("%d.%d.%d", &input_datum[0].dd, &input_datum[0].mm, &input_datum[0].yyyy);
 
-		//check_date(input_datum);
-
-		//printf("%d DEBUG", tage_im_monat[input_datum[0].mm]);
+		check_schaltjahr(input_datum);
 
 		//Größe eines Arrays ermitteln
 		size_t n = sizeof(tage_im_monat) / sizeof(tage_im_monat[0]);
 		n = n - 1;
 
+		if (tage_im_monat[input_datum[0].mm] == input_datum[0].dd || (input_datum[0].dd > 0 && input_datum[0].dd <= tage_im_monat[input_datum[0].mm])) {
+			printf("\nDer eingegebene Tag ist korrekt.");
+		}
+		else
+		{
+			printf("\nDer eingegebene Tag ist nicht korrekt!");
+		}
 		if (input_datum[0].mm > 0 && input_datum[0].mm <= n) {
 			printf("\nDer eingegebene Monat ist korrekt.");
 		}
 		else
 		{
 			printf("\nDer eingegebene Monat ist nicht korrekt.");
-		}
-		if (tage_im_monat[input_datum[0].mm] == input_datum[0].dd || (input_datum[0].dd > 0 && input_datum[0].dd <= tage_im_monat[input_datum[0].mm] + 1)) {
-			printf("\nDer eingegebene Tag ist korrekt.");
-		}
-		else
-		{
-			printf("\nDer eingegebene Tag ist nicht korrekt!");
 		}
 		if (input_datum[0].yyyy > 0) {
 			printf("\nDas eingegebene Jahr ist korrekt.\n");
@@ -77,7 +72,7 @@ int main() {
 			printf("\nDas eingegebene Jahr ist nicht korrekt!\n");
 		}
 
-		if (check_schaltjahr(input_datum) == TRUE) {
+		if (check_schaltjahr(input_datum) == 1) {
 			printf("\n%d ist ein Schaltjahr", input_datum[0].yyyy);
 		}
 		else {
