@@ -1,4 +1,13 @@
-﻿#define _CRT_SECURE_NO_WARNINGS 1
+﻿/*
+	____________________________________
+	|Aufgabe 2:	Kalender				|
+	|PE1								|
+	|Author: Stavros Giannis			|
+	|Datum 10/11/2019					|
+	‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+*/
+
+#define _CRT_SECURE_NO_WARNINGS 1
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -81,7 +90,7 @@ int main() {
 			printf("\n%d ist ein Schaltjahr", input_datum[0].yyyy);
 		}
 		else {
-			printf("\n%d ist kein Schaltjahr", input_datum[0].yyyy);
+			printf("\n%d ist KEIN Schaltjahr", input_datum[0].yyyy);
 		}
 
 		printf("\nTag im Jahr: %d", getDayOfYear(input_datum));
