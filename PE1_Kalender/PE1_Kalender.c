@@ -119,6 +119,7 @@ int getDayOfYear(struct datum input_datum[1])
 
 int getDayOfWeek(int d, int m, int y)
 {
+	// https://de.wikipedia.org/wiki/Wochentagsberechnung
 	int s = 0, k, l, o, t, z1, z2, z3, z4, z5, z6;
 	double p, z;
 	z = (0.6 + (1.0 / m));
@@ -158,7 +159,7 @@ int getWeekInYear(struct datum input_datum[1]) {
 }
 
 int ISO8601(struct datum input_datum[1]) {
-	// YYYY-Www-D
+	// YYYY-Www-D http://www.doku.net/techndoku/artikel/iso8601dat.htm
 	if (input_datum[0].dd < 10 && getWeekInYear(input_datum) < 10) {
 		printf("\nISO8601: %d-W0%d-0%d", input_datum[0].yyyy, getWeekInYear(input_datum), input_datum[0].dd);
 		return 1;
@@ -191,6 +192,6 @@ Die Funktionalität soll schrittweise realisiert werden. Achten Sie darauf, dass
 	4.	Berechnen Sie den Wochentag des 1. Januars des gegebenen Jahres. (Zur Vereinfachung beschränken Sie ihr Programm auf
 		Jahre des 20. oder 21. Jahrhunderts, also zwischen 1901 und 2100.) FERTIG
 	5.	Ermitteln Sie den Wochentag des gegebenen Tags. FERTIG
-	6.	Zusatzaufgabe: Berechnen Sie, in welcher Kalenderwoche der gegebene Tag ist (nach ISO 8601).
+	6.	Zusatzaufgabe: Berechnen Sie, in welcher Kalenderwoche der gegebene Tag ist (nach ISO 8601). FERTIG
 
 */
