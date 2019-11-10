@@ -1,68 +1,81 @@
-#define _CRT_SECURE_NO_WARNINGS 1
+ï»¿#define _CRT_SECURE_NO_WARNINGS 1
 
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+
+// Deklarationen
+unsigned char response;
 
 struct datum
 {
-	int dd;
-	int mm;
-	int yyyy;
+	unsigned int dd;
+	unsigned int mm;
+	unsigned int yyyy;
 };
 
-int tage_im_monat[] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
+int days_of_month[] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
 
-char julianische_wochentage[7][32] = { "Sonntag", "Montag","Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag" };
-int julianische_monate[] = { 1/*März*/, 2/*April*/, 3/*Mai*/, 4/*Juni*/, 5/*Juli*/, 6/*August*/, 7/*September*/, 8/*Oktober*/, 9/*November*/, 10/*Dezember*/, 11/*Januar*/, 12/*Februar*/ };
+const unsigned char julianische_wochentage[7][32] = { "Sonntag", "Montag","Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag" };
+const unsigned int julianische_monate[] = { 1/*MÃ¤rz*/, 2/*April*/, 3/*Mai*/, 4/*Juni*/, 5/*Juli*/, 6/*August*/, 7/*September*/, 8/*Oktober*/, 9/*November*/, 10/*Dezember*/, 11/*Januar*/, 12/*Februar*/ };
 
-int check_schaltjahr(struct datum input_datum[1])
+int getLeapYear(struct datum input_datum[1])
 {
 	if (input_datum[0].yyyy % 4 == 0 && input_datum[0].yyyy % 100 != 0 || input_datum[0].yyyy % 400 == 0)
 	{
-		tage_im_monat[2] = 29;
+		days_of_month[2] = 29;
 		return 1;
 	}
 	else
 	{
-		tage_im_monat[2] = 28;
+		days_of_month[2] = 28;
 		return 0;
 	}
 }
 
-unsigned char response;
+int getSizeArr(int* INPUT_ARRAY[]) {
+	size_t n = sizeof(INPUT_ARRAY) / sizeof(INPUT_ARRAY[0]);
+	return n;
+}
 
-/* schaltjahr.c
-	berechnet, ob ein Jahr nach den Gregorianischen Kalender ein Schaltjahr ist.
-	Achtung: Vor 1582 war jedes Jahr mit durch 4 teilbarer Zahl ein Schaltjahr
-	(Julianischer Kalender). */
+void SHOW_ASCII() {
+	printf("______ _____ __    _   __      _                _\n"
+		"| ___ |  ___/  |  | | / /     | |               | |          \n"
+		"| |_/ / |__ `| |  | |/ /  __ _| | ___ _  __   __| | ___ _ __ \n"
+		"|  __/|  __| | |  |    | / _` | |/ _ | '_  | / _` |/ _ \ __|\n"
+		"| |   | |____| |_ | ||  | (_| | | __/| | | |(_| | || __/ |   \n"
+		"|_|   |____/|___/ |_| |_/|__,_|_||___|_| |_| |__,_||___|_|  \n"
+		"By Stavros Giannis\n"
+		"______________________________________________________________________________\n");
+}
 
 int main() {
 	do
 	{
+		SHOW_ASCII();
 		struct datum input_datum[1];
 
 		printf("Bitte geben Sie das Datum ein [dd.mm.yyyy]: ");
 		scanf("%d.%d.%d", &input_datum[0].dd, &input_datum[0].mm, &input_datum[0].yyyy);
 
-		check_schaltjahr(input_datum);
+		getLeapYear(input_datum);
 
-		//Größe eines Arrays ermitteln
-		size_t n = sizeof(tage_im_monat) / sizeof(tage_im_monat[0]);
-		n = n - 1;
+		//GrÃ¶ÃŸe eines Arrays ermitteln
+		int sizeMonthArr = getSizeArr(julianische_monate) - 1;
 
-		if (tage_im_monat[input_datum[0].mm] == input_datum[0].dd || (input_datum[0].dd > 0 && input_datum[0].dd <= tage_im_monat[input_datum[0].mm])) {
+		if (days_of_month[input_datum[0].mm] == input_datum[0].dd || (input_datum[0].dd > 0 && input_datum[0].dd <= days_of_month[input_datum[0].mm])) {
 			printf("\nDer eingegebene Tag ist korrekt.");
 		}
 		else
 		{
 			printf("\nDer eingegebene Tag ist nicht korrekt!");
 		}
-		if (input_datum[0].mm > 0 && input_datum[0].mm <= n) {
+		if (input_datum[0].mm > 0 && input_datum[0].mm <= sizeMonthArr) {
 			printf("\nDer eingegebene Monat ist korrekt.");
 		}
 		else
 		{
-			printf("\nDer eingegebene Monat ist nicht korrekt.");
+			printf("\nDer eingegebene Monat ist nicht korrekt!");
 		}
 		if (input_datum[0].yyyy > 0) {
 			printf("\nDas eingegebene Jahr ist korrekt.\n");
@@ -72,7 +85,7 @@ int main() {
 			printf("\nDas eingegebene Jahr ist nicht korrekt!\n");
 		}
 
-		if (check_schaltjahr(input_datum) == 1) {
+		if (getLeapYear(input_datum) == 1) {
 			printf("\n%d ist ein Schaltjahr", input_datum[0].yyyy);
 		}
 		else {
@@ -96,7 +109,7 @@ int main() {
 	} while (getchar() == 'j' || getchar() == 'J');
 }
 
-int aufgabe5(struct datum input_datum[1]) {
+void aufgabe5(struct datum input_datum[1]) {
 	int num = input_datum[0].yyyy;
 	int letzen_zwei_stellen_vorjahr[] = { 0,0 };
 	int ersten_zwei_stellen_vorjahr[] = { 0,0 };
@@ -129,7 +142,7 @@ int tag_im_jahr(struct datum input_datum[1])
 	int tag_im_jahr = 0;
 
 	for (int i = 1; i < input_datum[0].mm; i++) {
-		tag_im_jahr = tag_im_jahr + tage_im_monat[i];
+		tag_im_jahr = tag_im_jahr + days_of_month[i];
 		if (i == input_datum[0].mm - 1) {
 			tag_im_jahr = tag_im_jahr + input_datum[0].dd;
 		}
@@ -179,14 +192,14 @@ int aufgabe6(struct datum input_datum[1]) {
 
 /*
 
-In dieser Aufgabe soll ein C-Programm zur Erzeugung eines Kalenders erstellt werden. Ausgangspunkt ist ein vom Benutzer eingegebenes Datum, für das die Kalenderinformationen angezeigt werden sollen.
+In dieser Aufgabe soll ein C-Programm zur Erzeugung eines Kalenders erstellt werden. Ausgangspunkt ist ein vom Benutzer eingegebenes Datum, fÃ¼r das die Kalenderinformationen angezeigt werden sollen.
 
-Die Funktionalität soll schrittweise realisiert werden. Achten Sie darauf, dass Sie für jeden Schritt jeweils zuerst ein Konzept haben, bevor Sie es anschließend umsetzen. Für die Aufgabe in dieser Woche existiert keine Vorlage. Sie können jedoch Teile der Programme aus den vergangenen Wochen nutzen, um beispielsweise die Benutzereingabe zu realisieren.
+Die FunktionalitÃ¤t soll schrittweise realisiert werden. Achten Sie darauf, dass Sie fÃ¼r jeden Schritt jeweils zuerst ein Konzept haben, bevor Sie es anschlieÃŸend umsetzen. FÃ¼r die Aufgabe in dieser Woche existiert keine Vorlage. Sie kÃ¶nnen jedoch Teile der Programme aus den vergangenen Wochen nutzen, um beispielsweise die Benutzereingabe zu realisieren.
 
 	1.	Berechnen Sie, ob das Jahr des vom Benutzer eingegebenen Datums ein Schaltjahr ist. FERTIG
-	2.	Prüfen Sie, ob ein korrektes Datum eingegeben wurde. (Beachten Sie dabei auch die im ersten Teil ermittelte Information.) FERTIG
-	3.	Geben Sie für den gegebenen Tag aus, der wievielte Tag des Jahres er ist.	FERTIG
-	4.	Berechnen Sie den Wochentag des 1. Januars des gegebenen Jahres. (Zur Vereinfachung beschränken Sie ihr Programm auf
+	2.	PrÃ¼fen Sie, ob ein korrektes Datum eingegeben wurde. (Beachten Sie dabei auch die im ersten Teil ermittelte Information.) FERTIG
+	3.	Geben Sie fÃ¼r den gegebenen Tag aus, der wievielte Tag des Jahres er ist.	FERTIG
+	4.	Berechnen Sie den Wochentag des 1. Januars des gegebenen Jahres. (Zur Vereinfachung beschrÃ¤nken Sie ihr Programm auf
 		Jahre des 20. oder 21. Jahrhunderts, also zwischen 1901 und 2100.) FERTIG
 	5.	Ermitteln Sie den Wochentag des gegebenen Tags. FERTIG
 	6.	Zusatzaufgabe: Berechnen Sie, in welcher Kalenderwoche der gegebene Tag ist (nach ISO 8601).
