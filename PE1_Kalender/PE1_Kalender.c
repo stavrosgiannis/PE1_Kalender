@@ -92,11 +92,11 @@ int main() {
 		printf("\n%d. Woche im Jahr", getWeekInYear(input_datum));
 
 		if (ISO8601(input_datum) != 1) {
-			printf("\n[Fehler] Es gibt ein Problem beim ausführen der Funktion 'ISO8601'.\n");
+			printf("\n[Fehler] Es gibt ein Problem beim ausführen der Funktion 'ISO8601'.");
 		}
 
 		if (static_date(input_datum) != 1) {
-			printf("\n[Fehler] Es gibt ein Problem beim ausführen der Funktion 'static_date'.\n");
+			printf("\n[Fehler] Es gibt ein Problem beim ausführen der Funktion 'static_date'.");
 		}
 
 		printf("\n\nerneute Berechnung? (j/n)\n");
@@ -158,17 +158,25 @@ int getWeekInYear(struct datum input_datum[1]) {
 }
 
 int ISO8601(struct datum input_datum[1]) {
-	if (input_datum[0].dd < 10 && input_datum[0].mm < 10) {
-		printf("\nISO8601: %d-0%d-0%d", input_datum[0].yyyy, input_datum[0].mm, input_datum[0].dd);
+	// YYYY-Www-D
+	if (input_datum[0].dd < 10 && getWeekInYear(input_datum) < 10) {
+		printf("\nISO8601: %d-W0%d-0%d", input_datum[0].yyyy, getWeekInYear(input_datum), input_datum[0].dd);
+		return 1;
 	}
-	else if (input_datum[0].dd < 10 && input_datum[0].mm > 10) {
-		printf("\nISO8601: %d-%d-0%d", input_datum[0].yyyy, input_datum[0].mm, input_datum[0].dd);
+	else if (input_datum[0].dd < 10 && getWeekInYear(input_datum) < 10) {
+		printf("\nISO8601: %d-W%d-0%d", input_datum[0].yyyy, getWeekInYear(input_datum), input_datum[0].dd);
+		return 1;
 	}
-	else if (input_datum[0].dd > 10 && input_datum[0].mm < 10) {
-		printf("\nISO8601: %d-0%d-%d", input_datum[0].yyyy, input_datum[0].mm, input_datum[0].dd);
+	else if (input_datum[0].dd > 10 && getWeekInYear(input_datum) < 10) {
+		printf("\nISO8601: %d-W0%d-%d", input_datum[0].yyyy, getWeekInYear(input_datum), input_datum[0].dd);
+		return 1;
+	}
+	else {
+		printf("\nISO8601: %d-W%d-%d", input_datum[0].yyyy, getWeekInYear(input_datum), input_datum[0].dd);
+		return 1;
 	}
 
-	return 1;
+	return 0;
 }
 
 /*
