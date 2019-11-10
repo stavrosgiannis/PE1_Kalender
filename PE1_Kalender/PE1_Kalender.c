@@ -161,7 +161,7 @@ int dayofweek(int d, int m, int y)
 }
 
 int getWochentag(struct datum input_datum[1]) {
-	printf("%s", wochentage[dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy)]);
+	printf("%s", julianische_wochentage[dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy)]);
 	/*return wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)];*/
 }
 
