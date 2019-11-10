@@ -2,7 +2,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
+#include <time.h>
 
 // Deklarationen
 unsigned char response;
@@ -33,11 +33,6 @@ int getLeapYear(struct datum input_datum[1])
 	}
 }
 
-int getSizeArr(int* INPUT_ARRAY[]) {
-	size_t n = sizeof(INPUT_ARRAY) / sizeof(INPUT_ARRAY[0]);
-	return n;
-}
-
 void SHOW_ASCII() {
 	printf("______ _____ __    _   __      _                _\n"
 		"| ___ |  ___/  |  | | / /     | |               | |          \n"
@@ -49,40 +44,37 @@ void SHOW_ASCII() {
 		"______________________________________________________________________________\n");
 }
 
+int validateDate(struct datum input_datum[1]) {
+	if (days_of_month[input_datum[0].mm] == input_datum[0].dd || (input_datum[0].dd > 0 && input_datum[0].dd <= days_of_month[input_datum[0].mm])) {
+		//printf("\nDer eingegebene Tag ist korrekt.");
+		if (input_datum[0].mm > 0 && input_datum[0].mm <= 12) {
+			//printf("\nDer eingegebene Monat ist korrekt.");
+			if (input_datum[0].yyyy > 0) {
+				//printf("\nDas eingegebene Jahr ist korrekt.\n");
+				return 1;
+			}
+		}
+	}
+	else
+	{
+		return 0;
+	}
+}
+
 int main() {
+	SHOW_ASCII();
 	do
 	{
-		SHOW_ASCII();
 		struct datum input_datum[1];
 
 		printf("Bitte geben Sie das Datum ein [dd.mm.yyyy]: ");
 		scanf("%d.%d.%d", &input_datum[0].dd, &input_datum[0].mm, &input_datum[0].yyyy);
 
+		//Schaltjahr abfrage
 		getLeapYear(input_datum);
 
-		//Größe eines Arrays ermitteln
-		int sizeMonthArr = getSizeArr(julianische_monate) - 1;
-
-		if (days_of_month[input_datum[0].mm] == input_datum[0].dd || (input_datum[0].dd > 0 && input_datum[0].dd <= days_of_month[input_datum[0].mm])) {
-			printf("\nDer eingegebene Tag ist korrekt.");
-		}
-		else
-		{
-			printf("\nDer eingegebene Tag ist nicht korrekt!");
-		}
-		if (input_datum[0].mm > 0 && input_datum[0].mm <= sizeMonthArr) {
-			printf("\nDer eingegebene Monat ist korrekt.");
-		}
-		else
-		{
-			printf("\nDer eingegebene Monat ist nicht korrekt!");
-		}
-		if (input_datum[0].yyyy > 0) {
-			printf("\nDas eingegebene Jahr ist korrekt.\n");
-		}
-		else
-		{
-			printf("\nDas eingegebene Jahr ist nicht korrekt!\n");
+		if (validateDate(input_datum) == 0) {
+			printf("\n[Fehler] Das angegebene Datum ist nicht korrekt!");
 		}
 
 		if (getLeapYear(input_datum) == 1) {
@@ -92,52 +84,27 @@ int main() {
 			printf("\n%d ist kein Schaltjahr", input_datum[0].yyyy);
 		}
 
-		printf("\nTag im Jahr: %d", tag_im_jahr(input_datum));
+		printf("\nTag im Jahr: %d", getDayOfYear(input_datum));
 
 		printf("\nDatum: %d.%d.%d, ", input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy);
-		getWochentag(input_datum);
+		getWeekday(input_datum);
 
-		printf("\n%d. Woche im Jahr", aufgabe6(input_datum));
+		printf("\n%d. Woche im Jahr", getWeekInYear(input_datum));
 
-		printf("\n01.01.%d, ", input_datum[0].yyyy);
-		/*printf("%d", dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy));*/
-		aufgabe4(input_datum);
-		//aufgabe5(input_datum);
+		if (ISO8601(input_datum) != 1) {
+			printf("\n[Fehler] Es gibt ein Problem beim ausführen der Funktion 'ISO8601'.\n");
+		}
+
+		if (static_date(input_datum) != 1) {
+			printf("\n[Fehler] Es gibt ein Problem beim ausführen der Funktion 'static_date'.\n");
+		}
 
 		printf("\n\nerneute Berechnung? (j/n)\n");
 		scanf("%c", &response);
 	} while (getchar() == 'j' || getchar() == 'J');
 }
 
-void aufgabe5(struct datum input_datum[1]) {
-	int num = input_datum[0].yyyy;
-	int letzen_zwei_stellen_vorjahr[] = { 0,0 };
-	int ersten_zwei_stellen_vorjahr[] = { 0,0 };
-
-	for (int i = 0; i < 4; i++)
-	{
-		int mod = num % 10;  //split last digit from number
-		printf("%d\n", mod); //print the digit.
-		if (i == 0) {
-			letzen_zwei_stellen_vorjahr[1] = mod;
-		}
-		else if (i == 1) {
-			letzen_zwei_stellen_vorjahr[0] = mod;
-		}
-		else if (i == 3) {
-			ersten_zwei_stellen_vorjahr[0] = mod;
-		}
-		else if (i == 4) {
-			ersten_zwei_stellen_vorjahr[1] = mod;
-		}
-
-		num = num / 10;    //divide num by 10. num /= 10 also a valid one
-	}
-	/*printf("\n%d%d letzten stellen\n", letzen_zwei_stellen_vorjahr[0], letzen_zwei_stellen_vorjahr[1]);
-	printf("\n%d%d ersten stellen\n", ersten_zwei_stellen_vorjahr[0], ersten_zwei_stellen_vorjahr[1]);*/
-}
-
-int tag_im_jahr(struct datum input_datum[1])
+int getDayOfYear(struct datum input_datum[1])
 {
 	int tag_im_jahr = 0;
 
@@ -150,7 +117,7 @@ int tag_im_jahr(struct datum input_datum[1])
 	return tag_im_jahr;
 }
 
-int dayofweek(int d, int m, int y)
+int getDayOfWeek(int d, int m, int y)
 {
 	int s = 0, k, l, o, t, z1, z2, z3, z4, z5, z6;
 	double p, z;
@@ -173,21 +140,35 @@ int dayofweek(int d, int m, int y)
 	return(t - 1);
 }
 
-int getWochentag(struct datum input_datum[1]) {
-	printf("%s", julianische_wochentage[dayofweek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy)]);
-	/*return wochentage[dayofweek(input_datum[0].dd - 1, input_datum[0].mm, input_datum[0].yyyy)];*/
+int getWeekday(struct datum input_datum[1]) {
+	printf(julianische_wochentage[getDayOfWeek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy)]);
 }
 
-int aufgabe4(struct datum input_datum[1]) {
+int static_date(struct datum input_datum[1]) {
 	input_datum[0].dd = 01;
 	input_datum[0].mm = 01;
-	getWochentag(input_datum);
-	return 0;
+	printf("\n01.01.%d, ", input_datum[0].yyyy);
+	getWeekday(input_datum);
+	return 1;
 }
 
-int aufgabe6(struct datum input_datum[1]) {
-	int woche_im_jahr = tag_im_jahr(input_datum) / 7;
+int getWeekInYear(struct datum input_datum[1]) {
+	int woche_im_jahr = getDayOfYear(input_datum) / 7;
 	return woche_im_jahr + 1;
+}
+
+int ISO8601(struct datum input_datum[1]) {
+	if (input_datum[0].dd < 10 && input_datum[0].mm < 10) {
+		printf("\nISO8601: %d-0%d-0%d", input_datum[0].yyyy, input_datum[0].mm, input_datum[0].dd);
+	}
+	else if (input_datum[0].dd < 10 && input_datum[0].mm > 10) {
+		printf("\nISO8601: %d-%d-0%d", input_datum[0].yyyy, input_datum[0].mm, input_datum[0].dd);
+	}
+	else if (input_datum[0].dd > 10 && input_datum[0].mm < 10) {
+		printf("\nISO8601: %d-0%d-%d", input_datum[0].yyyy, input_datum[0].mm, input_datum[0].dd);
+	}
+
+	return 1;
 }
 
 /*
