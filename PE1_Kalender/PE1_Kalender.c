@@ -2,7 +2,7 @@
 	____________________________________
 	|Aufgabe 2:	Kalender				|
 	|PE1								|
-	|Author: Stavros Giannis			|
+	|Author: Stavros Gia.				|
 	|Datum 10/11/2019					|
 	‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
 */
@@ -11,7 +11,6 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <time.h>
 
 // Deklarationen
 unsigned char response;
@@ -49,7 +48,7 @@ void SHOW_ASCII() {
 		"|  __/|  __| | |  |    | / _` | |/ _ | '_  | / _` |/ _ \ __|\n"
 		"| |   | |____| |_ | ||  | (_| | | __/| | | |(_| | || __/ |   \n"
 		"|_|   |____/|___/ |_| |_/|__,_|_||___|_| |_| |__,_||___|_|  \n"
-		"By Stavros Giannis\n"
+		"By Stavros Gia.\n"
 		"______________________________________________________________________________\n");
 }
 
