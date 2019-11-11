@@ -22,11 +22,14 @@ struct datum
 	unsigned int yyyy;
 };
 
-int days_of_month[] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
+//Index = Monate 1-12		0 ist ein platzhalter
+unsigned int days_of_month[] = { 0,31,28,31,30,31,30,31,31,30,31,30,31 };
 
+//Reihenfolge der Wochentage und Monate laut der Tabelle
 const unsigned char julianische_wochentage[7][32] = { "Sonntag", "Montag","Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag" };
 const unsigned int julianische_monate[] = { 1/*März*/, 2/*April*/, 3/*Mai*/, 4/*Juni*/, 5/*Juli*/, 6/*August*/, 7/*September*/, 8/*Oktober*/, 9/*November*/, 10/*Dezember*/, 11/*Januar*/, 12/*Februar*/ };
 
+//Schaltjahr funktion mit einem rückgabewert
 int getLeapYear(struct datum input_datum[1])
 {
 	if (input_datum[0].yyyy % 4 == 0 && input_datum[0].yyyy % 100 != 0 || input_datum[0].yyyy % 400 == 0)
@@ -37,10 +40,12 @@ int getLeapYear(struct datum input_datum[1])
 	else
 	{
 		days_of_month[2] = 28;
-		return 0;
+		return 1;
 	}
+	return 0;
 }
 
+//Fancy
 void SHOW_ASCII() {
 	printf("______ _____ __    _   __      _                _\n"
 		"| ___ |  ___/  |  | | / /     | |               | |          \n"
@@ -52,6 +57,7 @@ void SHOW_ASCII() {
 		"______________________________________________________________________________\n");
 }
 
+//Datum check
 int validateDate(struct datum input_datum[1]) {
 	if (days_of_month[input_datum[0].mm] == input_datum[0].dd || (input_datum[0].dd > 0 && input_datum[0].dd <= days_of_month[input_datum[0].mm])) {
 		//printf("\nDer eingegebene Tag ist korrekt.");
@@ -112,9 +118,10 @@ int main() {
 	} while (getchar() == 'j' || getchar() == 'J');
 }
 
+//Welcher Tag im Jahr
 int getDayOfYear(struct datum input_datum[1])
 {
-	int tag_im_jahr = 0;
+	unsigned int tag_im_jahr = 0;
 
 	for (int i = 1; i < input_datum[0].mm; i++) {
 		tag_im_jahr = tag_im_jahr + days_of_month[i];
@@ -125,6 +132,7 @@ int getDayOfYear(struct datum input_datum[1])
 	return tag_im_jahr;
 }
 
+//Tag der Woche
 int getDayOfWeek(int d, int m, int y)
 {
 	// https://de.wikipedia.org/wiki/Wochentagsberechnung
@@ -149,10 +157,12 @@ int getDayOfWeek(int d, int m, int y)
 	return(t - 1);
 }
 
+//Wochentagsberechnung
 int getWeekday(struct datum input_datum[1]) {
 	printf(julianische_wochentage[getDayOfWeek(input_datum[0].dd, input_datum[0].mm, input_datum[0].yyyy)]);
 }
 
+//1. Januar Wochentag des input Jahres
 int static_date(struct datum input_datum[1]) {
 	input_datum[0].dd = 01;
 	input_datum[0].mm = 01;
@@ -161,11 +171,13 @@ int static_date(struct datum input_datum[1]) {
 	return 1;
 }
 
+//Woche im Jahr
 int getWeekInYear(struct datum input_datum[1]) {
 	int woche_im_jahr = getDayOfYear(input_datum) / 7;
 	return woche_im_jahr + 1;
 }
 
+//Datum im ISO8601 Format anzeigen
 int ISO8601(struct datum input_datum[1]) {
 	// YYYY-Www-D http://www.doku.net/techndoku/artikel/iso8601dat.htm
 	if (input_datum[0].dd < 10 && getWeekInYear(input_datum) < 10) {
